@@ -1,0 +1,1 @@
+Task 1: create DynamoDB table via CLI and GUI and perform CRUD operations

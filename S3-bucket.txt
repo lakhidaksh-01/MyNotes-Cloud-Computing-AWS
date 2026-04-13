@@ -1,0 +1,69 @@
+Amazon Web Services S3 (Simple Storage Service) is a cloud storage service where you can store and retrieve any amount of data anytime, anywhere.
+its like a “Google Drive, but for developers + scalable + used by companies”
+
+diffrence between S3 and EBS is S3 is **cloud object storage for files accessible over the internet**, while EBS is **block storage attached to a single EC2 instance like a virtual hard drive**.
+
+
+Task 1: Create an S3 Bucket
+a. upload files in it
+b. enable public access (via bucket policy, via ACL)
+c. enable versioning
+d. host a static website
+
+
+1. Create S3 Bucket
+Go to AWS Console → search S3
+Click Create bucket
+Fill:
+Bucket name: must be unique (e.g. daksh-demo-bucket-123)
+Region: choose nearest (e.g. Mumbai, just keep it default it will work)
+Bucket namespace:  Account Regional namespace (recommended)
+Uncheck “Block all public access” (important later)
+Click Create bucket
+
+2. Upload Files
+Open your bucket
+Click Upload
+Add files (HTML, images, PDFs, etc.)
+Click Upload
+
+3. Enable Public Access
+
+Method A: Bucket Policy (BEST FOR STATIC WEBSITE)
+
+Go to:
+👉 Bucket → Permissions → Bucket policy
+
+Paste this (replace bucket name):
+
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "PublicReadGetObject",
+      "Effect": "Allow",
+      "Principal": "*",
+      "Action": "s3:GetObject",
+      "Resource": "arn:aws:s3:::YOUR_BUCKET_NAME/*"
+    }
+  ]
+}
+
+
+Method B: ACL (optional exam knowledge)
+Go to file → Permissions
+Enable Read access for Everyone (public)
+
+⚠️ Note: AWS prefers Bucket Policy over ACL now, if you are using ACLs, you set permissions per file (object level).
+
+
+4. Host Static Website
+Step 1: Enable website hosting
+Go to Properties
+Scroll to Static website hosting
+Click Edit
+Enable
+Set:
+Index document: index.html
+Error document: error.html (optional)
+Save

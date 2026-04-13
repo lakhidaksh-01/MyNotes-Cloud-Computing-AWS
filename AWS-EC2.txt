@@ -1,0 +1,248 @@
+AWS EC2 (Elastic Compute Cloud)
+
+EC2 = Virtual computer (server) in the cloud
+
+EC2 instances are virtual machines that run applications on the AWS infrastructure. They provide resizable compute capacity in the cloud, allowing users to scale up or down as needed.
+
+
+AMI (Amazon Machine Image) 
+- Pre-installed Operating System templates to launch an instance
+- for example: Amazon Linux, Ubuntu, Windows Server, etc.  ubunto AMI= gets linux machine , windows AMI= gets windows machine
+
+Instance Types 
+- Size/Power of the EC2 instance (e.g., t2.micro, m5.large, etc.)
+- for example: t2.micro = small application, m5.large = medium application
+
+
+Key Pair 
+- Used to secure login into ec2
+- aws gives private Key (.pem file)
+- if key got lost then no access
+
+
+Public IP = used to access from internet
+Private IP = used inside aws network
+
+Security Groups
+- Firewall of ec2
+- who can access and which port are open
+- for example: allow HTTP (port 80) from anywhere, allow SSH (port 22) from specific IPs, allow HTTPS (port 443) from specific IPs.
+
+
+STORAGE (EBS vs INSTANCE STORE)
+- EBS (Elastic Block Store): Permanent storage
+- Instance Store: Temporary storage (data lost if instance stops)
+
+
+Elastic IP
+- Static public IP address for EC2 instances because public IPs can change when instance stops/starts
+- Elastic IPs remain the same until you release them, allowing you to maintain a consistent IP address for your instance, even if it is stopped and restarted.
+
+
+AUTO SCALING
+- Automatically adds/removes servers based on demand
+- Ensures application availability and cost-efficiency by scaling resources up or down as needed.
+
+
+Load Balancer
+- Distributes incoming traffic across multiple servers
+
+
+connecting to EC2 instance 3 main ways:   (first 3 experiments below are based on these methods)
+1. EC2 Instance Connect (browser-based SSH)
+2. SSH Client (using .pem key file)
+3. putty (for Windows users, using .ppk key file)
+4. rdp (for Windows instances)
+
+
+Task 1 Create a EC2 instance and connect to it using the following methods:
+
+Method 1 - Creating Linux EC2 + Connect via AWS Console (via browser)
+
+Go to EC2 → Launch Instance
+Choose Ubuntu (AMI)
+Select instance type (t2.micro)
+Create/select key pair (.pem file for ssh client)
+Allow SSH (port 22)
+Click Launch
+Click Connect → EC2 Instance Connect (browser)
+
+
+Method 2 - Creating Linux EC2 + Connect via Third-Party Software (via Putty) 
+
+Go to EC2 → Launch Instance
+Choose Ubuntu (AMI)
+Select instance type (t2.micro)
+Create/select key pair (.ppk file for putty)
+Allow SSH (port 22)
+Click Launch
+Click Connect → EC2 Instance Connect (browser)
+Open Putty
+Enter Public IP of EC2 instance in hostname like ubuntu@52.90.127.139 if public ip is 52.90.127.139
+Go to SSH → Auth → Browse and select .ppk file
+Click Open to connect
+
+
+Method 3 - EC2 Service: Creating Linux instance and connecting the instance through Command Prompt EC2 (via cli)
+
+Go to EC2 → Launch Instance
+Choose Ubuntu (AMI)
+Select instance type (t2.micro)
+Create/select key pair (.pem file for ssh client)
+Allow SSH (port 22)
+Click Launch
+Open Cmd
+cd downloads (or the directory where your .pem file is located)
+ssh -i your-key-file.pem ubuntu@your-ec2-public-ip
+enter yes to continue connecting
+
+
+Method 4 - Creating Windows EC2 + Connect via RDP (Remote Desktop Protocol)
+
+Go to EC2 → Launch Instance
+Choose Windows Server (AMI)
+Select instance type (t2.micro)
+Create/select key pair (.pem file for ssh client)
+Allow RDP (port 3389)
+Click Launch
+go to " "->security -> get password -> select .pem file to decrypt password
+Open Remote Desktop Connection (RDP) on your computer
+Enter Public dns of EC2 instance in Computer field
+enter username (usually "Administrator") and decrypted password to connect to the Windows EC2 instance.
+
+
+
+
+Task 2:
+create EC2-ubuntu linux instance and run
+a. nginx
+b. Apache server(with custom HTML page)
+
+Note: Nginx and Apache are web servers used to host websites on EC2 instances. Nginx is faster and modern, while Apache is more traditional and widely used. Both can serve custom HTML pages to users accessing the EC2 instance via a web browser. 
+
+ans a. 1. Launch an EC2 instance with Ubuntu AMI and connect to it using SSH.
+       2. sudo apt update
+          sudo apt install nginx -y
+          sudo systemctl start nginx
+          sudo systemctl enable nginx
+       3. Open a web browser and enter the public IP address of your EC2 instance to see the default Nginx welcome page.
+       4. if want to serve custome HTML Page then 
+            cd /var/www/html
+            sudo nano index.html
+    note - always stop by sudo systemctl stop nginx
+
+b. 1. Launch an EC2 instance with Ubuntu AMI and connect to it using SSH.
+       2. sudo apt update
+          sudo apt install apache2 -y
+          sudo systemctl start apache2
+          sudo systemctl enable apache2
+       3. Open a web browser and enter the public IP address of your EC2 instance to see the default Apache welcome page.
+       4. if want to serve custome HTML Page then 
+            cd /var/www/html
+            sudo nano index.html
+    note - always stop by sudo systemctl stop apache2
+
+
+
+
+Just take a read below:
+
+Region
+  └── Availability Zones
+        └── VPC (your private network)
+              └── Subnets (public/private networks)
+                    └── EC2 Instances
+                          ↑
+                  Target Groups (for load balancer)
+
+Region = Large geographic area (e.g., Mumbai, US-East) containing multiple Availability Zones.
+Availability Zone (AZ) = Separate data centers in a region for high availability and fault tolerance.
+
+VPC (Virtual Private Cloud) = Your private network in AWS where you control IPs, subnets, routing, and security.
+Subnet = Smaller network inside a VPC used to organize resources (can be public or private).
+
+EC2 Instance = Virtual server running inside a subnet.
+Target Group = Group of EC2 instances that a Load Balancer sends traffic to.
+
+
+
+
+task 3: you have to create two EC2 intsnces
+a. install ngnix on both
+b. cutomize your index.html to show the ip of instance(via user data)
+c. configure load balancer to distribute traffic between two instances
+
+Create Two EC2 Instances
+Connect to Both Instances and Install Nginx (on BOTH instances)
+Create Load Balancer
+
+Select Network
+- Choose default VPC
+- Select at least 2 subnets (different AZs)
+
+Create Target Group
+-Click Create target group
+-Target type → Instances
+-Protocol → HTTP
+-Port → 80
+-Select BOTH instances
+-Click Include as pending below
+-Click Create target group
+-Attach Target Group
+-have to change some default settings to allow traffic to instances
+
+
+
+
+task 4: You have to configure Auto Scaling so that EC2 instances are automatically launched when CPU usage exceeds 50%.
+
+- for this task we need to create a launch template 
+Launch Template - is a blueprint of EC2 instance like a recipe to build it,
+for example: Launch Template = Burger recipe
+             EC2 Instance = actual burger made from recipe
+
+but why do we need this recipe/template -> because AWS needs a standard instruction set to automatically create identical EC2 instances whenever required.
+
+EC2 with Load Balancer distributes traffic across fixed instances, while Auto Scaling with Load Balancer automatically adds or removes instances based on demand, ensuring high availability and cost efficiency.
+
+
+
+Steps:
+
+Step 1: Create Launch Template
+Go to AWS Console → EC2
+Click Launch Templates → Create launch template
+Choose:
+AMI (Amazon Linux / Ubuntu)
+Instance type (t2.micro etc.)
+Key pair (your .pem)
+Security group (allow SSH + HTTP if needed)
+Click Create
+
+
+✅ Step 2: Create Auto Scaling Group (ASG)
+Go to EC2 → Auto Scaling Groups
+Click Create Auto Scaling group
+Select your Launch Template
+Choose:
+VPC
+Subnets (at least 2 for exam best practice)
+
+Set Desired Capacity
+Desired = 1 (or 2)
+Min = 1
+Max = 3 or 5 (important for scaling)
+
+In ASG setup → go to Scaling Policies
+Choose Target Tracking Scaling Policy
+Metric:
+Average CPU Utilization
+Set target:
+50%
+AWS will automatically:
+Add instance if CPU > 50%
+Remove instance if CPU drops
+
+Select: Prioritize availability
+
+Click Create Auto Scaling Group

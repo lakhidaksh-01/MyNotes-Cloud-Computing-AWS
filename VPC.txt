@@ -1,0 +1,20 @@
+To build secure real-world cloud applications
+
+Without VPC: Everything is exposed ❌
+With VPC: Full control of security + traffic + architecture ✅
+
+Internet Gateway (IGW) = A bridge between VPC and the internet
+Subnet = smaller network inside VPC
+Route Table = Rules that decide where network traffic goes
+EC2 Instances = Virtual servers in AWS
+
+
+
+AWS VPC
+task 1: 
+1. Create VPC
+2. Create Internet gateway
+3. Create 2 subnets one is private and other is public
+4. Create route table
+5. Create 2 ec2 instances. intance1 placed in public subset and instance2 placed in private.
+6. Try to ping intance1 to instance2.
