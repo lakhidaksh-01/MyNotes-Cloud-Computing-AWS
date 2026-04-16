@@ -18,3 +18,44 @@ task 1:
 4. Create route table
 5. Create 2 ec2 instances. intance1 placed in public subset and instance2 placed in private.
 6. Try to ping intance1 to instance2.
+
+
+1. Create VPC
+    Go to AWS Management Console → VPC
+    Click Create VPC
+    Give CIDR block: 10.0.0.0/16
+
+2. Create Internet Gateway
+    Go to Internet Gateway → Create
+    Attach it to the created VPC
+
+3. Create Subnets
+    Create Public Subnet → 10.0.1.0/24
+    Create Private Subnet → 10.0.2.0/24
+
+4. Create Route Table
+    Create route table and attach to VPC
+    Add route:
+    0.0.0.0/0 → Internet Gateway
+    Associate this route table with Public Subnet
+
+5. Launch EC2 Instances
+    Go to EC2 → Launch Instance
+
+    Instance 1 (Public)
+    Select VPC and Public Subnet
+    Enable Public IP
+
+    Instance 2 (Private)
+    Select VPC and Private Subnet
+    Disable Public IP
+
+6. Configure Security Groups
+    Allow ICMP (Ping):
+    Public instance → from anywhere
+    Private instance → from VPC (10.0.0.0/16)
+    
+7. Test Connectivity
+    Connect to Public Instance (SSH)
+    Run command:
+    ping <private-ip-of-instance2>
