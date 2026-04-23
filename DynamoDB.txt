@@ -1,1 +1,8 @@
 Task 1: create DynamoDB table via CLI and GUI and perform CRUD operations
+
+A fast and flexible NoSQL database service for any scale.
+
+DynamoDB is preferred when we need high performance, automatic scaling, and simple key-based queries. MongoDB is better when we need flexible schema and complex querying.
+
+ - create table define name and partition key
+ - go to Explore table to see items, then you can perform CRUD operations on items. You can also use the AWS CLI to perform CRUD operations on DynamoDB tables.
