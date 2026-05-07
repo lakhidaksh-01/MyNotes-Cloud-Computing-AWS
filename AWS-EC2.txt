@@ -105,7 +105,7 @@ Select instance type (t2.micro)
 Create/select key pair (.pem file for ssh client)
 Allow RDP (port 3389)
 Click Launch
-go to " "->security -> get password -> select .pem file to decrypt password
+go to Actions->security -> get password -> select .pem file to decrypt password
 Open Remote Desktop Connection (RDP) on your computer
 Enter Public dns of EC2 instance in Computer field
 enter username (usually "Administrator") and decrypted password to connect to the Windows EC2 instance.
