@@ -1,0 +1,27 @@
+AWS CloudFormation 
+Service for modeling and setting up aws resources
+uses templates written in JSON or YAML to define infrastructure as code (IaC)
+Automates provisioning and management of resources
+
+
+Example:
+1. Create a CloudFormation template to define an EC2 instance, an S3 bucket, and a security group. Deploy the template to create all resources in one step.
+
+
+how it works:
+Define template → Upload to CloudFormation → CloudFormation creates resources based on template
+
+
+Benefits:
+1. Infrastructure as Code (IaC): Manage and provision resources using code, enabling version control and automation.
+2. Automation: Automatically create and manage resources, reducing manual effort and errors.
+3. Support rollbacks and update mechanisms: If a stack creation or update fails, CloudFormation can automatically roll back to the previous state, ensuring stability and reliability.
+
+
+Stack management:
+stacks: Deployed instances of CloudFormation templates
+stack sets: Manage stacks across multiple accounts and regions
+lifecycle: create, update, delete stacks
+rollback: automatic rollback on failure
+
+

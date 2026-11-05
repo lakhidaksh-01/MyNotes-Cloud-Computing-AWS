@@ -1,0 +1,2 @@
+Elastic Beanstalk is a fully managed service that makes it easy to deploy and scale web applications and services developed with various programming languages and frameworks. It abstracts away the underlying infrastructure, allowing developers to focus on writing code rather than managing servers.
+

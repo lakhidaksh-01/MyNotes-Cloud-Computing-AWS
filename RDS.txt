@@ -1,2 +1,45 @@
 Task 1: create RDS table via CLI and GUI and perform CRUD operations.
 
+Create Database
+1. Open AWS Console
+2. Search RDS
+3. Click Create Database
+4. Select MySQL
+5. DB name: studentdb
+6. Create database
+
+CRUD using SQL
+
+1. Create Table
+
+CREATE TABLE students(
+id INT PRIMARY KEY,
+name VARCHAR(50)
+);
+
+2. Insert Data
+
+INSERT INTO students VALUES(1,'Daksh');
+
+3. Read Data
+
+SELECT * FROM students;
+
+4. Update Data
+
+UPDATE students SET name='Raj' WHERE id=1;
+
+5. Delete Data
+
+DELETE FROM students WHERE id=1;
+
+
+CRUD using CLI
+
+aws rds create-db-instance \
+--db-instance-identifier studentdb \
+--db-instance-class db.t3.micro \
+--engine mysql \
+--master-username admin \
+--master-user-password password123 \
+--allocated-storage 20

@@ -1,0 +1,27 @@
+CloudFront is a CDN (Content Delivery Network) service provided by Amazon Web Services.
+
+Its job is simple:
+
+It delivers your website, videos, APIs, images, and files to users faster by storing copies in servers around the world.
+
+Simple Real-Life Example
+ - Imagine your website server is in New York. A user opens your site from Delhi.
+
+ Without CloudFront:
+ - Request travels all the way to New York
+ - More delay (latency)
+ - Slower loading
+
+  With CloudFront:
+ - CloudFront stores cached copies in nearby edge locations (like Mumbai/Singapore)
+ - User gets data from nearest server
+ - Website becomes much faster ⚡
+
+Terms to Know:
+1. Origin: The original server where your content is stored (e.g., your website server, s3 bucket can act like origin).
+2. Edge Location: Data centers around the world where CloudFront caches copies of your content for faster delivery.
+3. Distribution: A collection of edge locations that serve your content. You create a distribution to tell CloudFront where your origin is and how to handle requests.
+4. Cache Hit: When a user requests content and it is available in the edge location, it's called a cache hit. This results in faster delivery. 
+5. Cache Miss: When a user requests content that is not available in the edge location, it's called a cache miss. CloudFront retrieves the content from the origin, which takes more time.
+
+AWS KMS= Key Management Service
